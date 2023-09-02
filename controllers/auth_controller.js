@@ -8,6 +8,12 @@ const { promisify } = require('util');
 const { sendEmail } = require('../utils/Emails');
 
 // ------------------------------------- Autenticação ------------------------------- //
+const getMe = (req, res, next) => {
+  req.params.id = req.user.id;
+
+  next();
+};
+
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRATION_TIME,
@@ -65,7 +71,7 @@ const sendToken = (user, statusCode, res) => {
 
   if (process.env.NODE_ENV === 'production')
     cookieOptions.secure = true;
-  
+
   res.cookie('jwt', token, cookieOptions);
 
   res.status(statusCode).json({
@@ -194,5 +200,6 @@ module.exports = {
   restrictTo,
   forgotPassword,
   resetPassword,
-  updateMyPassword
+  updateMyPassword,
+  getMe
 };
