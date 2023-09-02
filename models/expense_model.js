@@ -31,13 +31,14 @@ const expense_model = new mongoose.Schema(
 
 expense_model.set('toJSON', {
   virtuals: true,
-  transform: function(doc, ret) {
-      delete ret._id;
+  transform: function (doc, ret) {
+    delete ret._id;
+    delete ret.__v;
   }
 });
 
 // virtuals
-expense_model.virtual('dolarValue').get(function() {
+expense_model.virtual('dolarValue').get(function () {
   return (this.value / 4.77).toFixed(2);
 })
 

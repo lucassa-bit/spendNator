@@ -20,8 +20,9 @@ const gain_model = new mongoose.Schema(
 
 gain_model.set('toJSON', {
   virtuals: true,
-  transform: function(doc, ret) {
-      delete ret._id;
+  transform: function (doc, ret) {
+    delete ret._id;
+    delete ret.__v;
   }
 });
 

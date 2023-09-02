@@ -82,10 +82,6 @@ const errorFinder = (error) => {
   return return_error || new ApiError(error.message, error.statusCode);
 };
 
-const catchAsync = function (fn) {
-  return (req, res, next) => fn(req, res, next).catch(next);
-};
-
 const error_handler = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
@@ -101,6 +97,10 @@ const error_handler = (err, req, res, next) => {
   } else if (process.env.NODE_ENV === 'development') {
     error_handle_dev(err, res);
   }
+};
+
+const catchAsync = function (fn) {
+  return (req, res, next) => fn(req, res, next).catch(next);
 };
 
 module.exports = { error_handler, catchAsync };

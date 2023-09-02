@@ -1,17 +1,20 @@
 // ------------------------------------- Initialization ------------------------------- //
 const Express = require('express');
 const controller = require('../controllers/user_controller');
-const { protect } = require('../controllers/auth_controller');
-
+const { protect, updateMyPassword, restrictTo } = require('../controllers/auth_controller');
 const router = Express.Router();
 
 // ------------------------------------- Routing ------------------------------- //
-router.route('/').get(protect, controller.getAllUsers);
+router.route('/').get(protect, restrictTo('Admin'), controller.getAllUsers);
+
+router.route('/updateMyPassword').patch(protect, updateMyPassword);
+router.route('/updateMe').patch(protect, controller.patchMe);
+router.route('/deleteMe').delete(protect, controller.deleteMe);
 
 router
   .route('/:id')
-  .patch(protect, controller.patchUser)
-  .get(protect, controller.getUserById)
-  .delete(protect, controller.deleteUser);
+  .patch(protect, restrictTo('Admin'), controller.patchUser)
+  .get(protect, restrictTo('Admin'), controller.getUserById)
+  .delete(protect, restrictTo('Admin'), controller.deleteUser);
 
 module.exports = router;

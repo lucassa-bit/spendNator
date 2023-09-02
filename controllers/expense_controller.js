@@ -6,7 +6,7 @@ const Expense = require(`${__dirname}/../models/expense_model`);
 const APIFeatures = require(`${__dirname}/../utils/APIFeature`);
 
 // ------------------------------------- Controllers ------------------------------- //
-const aliasDayExpenses = catchAsync((req, res, next) => {
+const aliasDayExpenses = (req, res, next) => {
   req.query.createdAt = {};
 
   const date = new Date(req.requestTime);
@@ -18,9 +18,9 @@ const aliasDayExpenses = catchAsync((req, res, next) => {
   req.query.createdAt.lte = date.toISOString();
 
   next();
-});
+};
 
-const dateMatch = catchAsync((req, res, next) => {
+const dateMatch = (req, res, next) => {
   const createdAt = {};
   if (req.query.date) {
     Object.keys(req.query.date).forEach((key) => {
@@ -37,7 +37,7 @@ const dateMatch = catchAsync((req, res, next) => {
   }
 
   next();
-});
+};
 
 const getExpensesSum = catchAsync(async (req, res, next) => {
   const format = req.query.dateFormat || '%Y-%m';
