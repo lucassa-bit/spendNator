@@ -13,7 +13,7 @@ const server = require('./app');
 const mongoose = require('mongoose');
 
 const db_url = (
-  process.env.NODE_ENV !== ''
+  process.env.NODE_ENV === 'development'
     ? process.env.DB_URL_LOCAL
     : process.env.DB_URL.replace('<username>', process.env.DB_USERNAME).replace(
         '<password>',
